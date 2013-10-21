@@ -117,11 +117,14 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     [self.navigationController setNavigationBarHidden:YES animated:YES];
+    NSLayoutConstraint *constraint = self.view.constraints[0];
+    constraint.constant = 20.0;
     [searchBar setShowsCancelButton:YES animated:YES];
 }
 
 - (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self orientationChanged:nil];
     return YES;
 }
 
