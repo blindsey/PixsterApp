@@ -14,6 +14,8 @@
 
 @property (nonatomic, strong) NSMutableArray *imageResults;
 
+- (void)orientationChanged:(NSNotification *)notification;
+
 @end
 
 @implementation SearchViewController
@@ -31,6 +33,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -120,6 +123,18 @@
 - (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     return YES;
+}
+
+# pragma mark - Private methods
+
+- (void)orientationChanged:(NSNotification *)notification
+{
+    NSLayoutConstraint *constraint = self.view.constraints[0];
+    if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait) {
+        constraint.constant = 65.0;
+    } else {
+        constraint.constant = 52.0;
+    }
 }
 
 @end
